@@ -1,30 +1,33 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   notificationsAtom,
   messagingAtom,
-  networkAtom,
-  jobsAtom,
-  totalNotifications,
+  // networkAtom,
+  // jobsAtom,
+  // totalNotifications,
+  totalNotificationsSelector,
 } from "./state";
 
 function App() {
-  const NotificationCount = useRecoilValue(notificationsAtom);
-  const [MessagingCount, setMessagingCount] = useRecoilState(messagingAtom);
-  const NetworkCount = useRecoilValue(networkAtom);
-  const JobsCount = useRecoilValue(jobsAtom);
-  const totalNotificationsCnt = useRecoilValue(totalNotifications);
+  const { notifications, messaging, jobs, network } =
+    useRecoilValue(notificationsAtom);
+  const totalNotifications = useRecoilValue(totalNotificationsSelector);
+  const setMessagingCount = useSetRecoilState(messagingAtom);
+  // const NetworkCount = useRecoilValue(networkAtom);
+  // const JobsCount = useRecoilValue(jobsAtom);
+  // const totalNotificationsCnt = useRecoilValue(totalNotifications);
+
   return (
     <div>
       <button>Home</button>
 
-      <button>My Network ({NetworkCount})</button>
-      <button>Jobs ({JobsCount})</button>
-      <button>Messaging ({MessagingCount})</button>
-      <button>
-        Notifications ({NotificationCount >= 100 ? "99+" : NotificationCount})
-      </button>
+      <button>My Network ({network})</button>
+      <button>Jobs ({jobs})</button>
+      <button>Messaging ({messaging})</button>
+      <button>Notifications ({notifications})</button>
+
       <button onClick={() => setMessagingCount((c) => c + 1)}>
-        {totalNotificationsCnt}Me
+        {totalNotifications} - Me
       </button>
     </div>
   );
