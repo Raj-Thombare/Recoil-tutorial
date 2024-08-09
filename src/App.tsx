@@ -1,36 +1,30 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  notificationsAtom,
-  messagingAtom,
-  // networkAtom,
-  // jobsAtom,
-  // totalNotifications,
-  totalNotificationsSelector,
-} from "./state";
+import { useRecoilValue } from "recoil";
+import Header from "./Header";
+import { todosAtomFamily } from "./state/atomfamily";
 
 function App() {
-  const { notifications, messaging, jobs, network } =
-    useRecoilValue(notificationsAtom);
-  const totalNotifications = useRecoilValue(totalNotificationsSelector);
-  const setMessagingCount = useSetRecoilState(messagingAtom);
-  // const NetworkCount = useRecoilValue(networkAtom);
-  // const JobsCount = useRecoilValue(jobsAtom);
-  // const totalNotificationsCnt = useRecoilValue(totalNotifications);
-
   return (
     <div>
-      <button>Home</button>
-
-      <button>My Network ({network})</button>
-      <button>Jobs ({jobs})</button>
-      <button>Messaging ({messaging})</button>
-      <button>Notifications ({notifications})</button>
-
-      <button onClick={() => setMessagingCount((c) => c + 1)}>
-        {totalNotifications} - Me
-      </button>
+      <Header />
+      <Todo id={1} />
+      <Todo id={2} />
     </div>
   );
 }
+
+type TodoProps = {
+  id: number;
+};
+
+const Todo = ({ id }: TodoProps) => {
+  const currentTodo = useRecoilValue(todosAtomFamily(id));
+  return (
+    <>
+      {currentTodo?.title}
+      {currentTodo?.description}
+      <br />
+    </>
+  );
+};
 
 export default App;
